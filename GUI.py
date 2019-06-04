@@ -25,13 +25,14 @@ class GUI:
         self.num_results_label = tk.Label(left_box, textvariable=self.label_stringvar)
         self.num_results_label.pack()
 
-        self.text_pad = tkst.ScrolledText(left_box, width=40, height=10)
-        self.text_pad.pack(padx=10, pady=10)
-        self.text_pad.configure(state=tk.DISABLED)
+        # self.text_pad = tkst.ScrolledText(left_box, width=40, height=10)
+        # self.text_pad.pack(padx=10, pady=10)
+        # self.text_pad.configure(state=tk.DISABLED)
+
+        self.item_choices = tk.Listbox(left_box, width=60, height=20)
+        self.item_choices.pack(padx=10, pady=10)
 
         right_box = tk.Frame(self.root)
-
-        self.test_label = tk.Label(right_box, text="TEST").pack(padx=10, pady=10)
 
         left_box.pack(side="left")
         right_box.pack(side="right")
@@ -42,12 +43,10 @@ class GUI:
 
     def __search_btn_action(self):
 
-        self.text_pad.configure(state=tk.NORMAL)
-        self.text_pad.delete('1.0', tk.END)
+        self.item_choices.delete(0, tk.END)
 
         if self.input_box.get() == '':
             self.label_stringvar.set(F"({0} results found)")
-            self.text_pad.configure(state=tk.DISABLED)
             return
 
         results = Cache.search_ids(self.input_box.get().strip())
@@ -55,6 +54,6 @@ class GUI:
         self.label_stringvar.set(F"({len(results)} results found)")
 
         for value in results:
-            self.text_pad.insert(tk.INSERT, str(value['name']) + ' (' + str(value['id']) + ')' + '\n')
+            self.item_choices.insert(tk.END, str(value['name']) + ' (' + str(value['id']) + ')' + '\n')
 
-        self.text_pad.configure(state=tk.DISABLED)
+        pass
