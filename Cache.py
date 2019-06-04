@@ -24,7 +24,7 @@ def get_cached_item(item_no, force_refresh=False, force_refresh_icon=False):
             try:
                 cached_data = json.load(cached_json)
             except json.decoder.JSONDecodeError:
-                print("Error: Cache was malformed ({}). Refreshing...".format(item_no))
+                print(F"Error: Cache was malformed (item_no). Refreshing...")
                 cached_data = None
 
     # Calculate the cached data age
@@ -34,7 +34,7 @@ def get_cached_item(item_no, force_refresh=False, force_refresh_icon=False):
     # If the cache is too old or doesn't exist, refresh
     if cached_data_age is None or cached_data_age > cache_lifetime or force_refresh:
 
-        print('Invalid cache detected ({}), refreshing...'.format(item_no))
+        print(F'Invalid cache detected ({item_no}), refreshing...')
 
         # Request the data from the internets
         try:
@@ -57,7 +57,7 @@ def get_cached_item(item_no, force_refresh=False, force_refresh_icon=False):
                 __refresh_icon(data, force_refresh=force_refresh_icon)
                 return data
         except error.HTTPError:
-            print("Error: Could not find item {} (error 404)".format(item_no))
+            print(F"Error: Could not find item {item_no} (error 404)")
             return
         except json.decoder.JSONDecodeError:
             print('Error: The request seems to have failed. You may be requesting too quickly')
@@ -65,7 +65,7 @@ def get_cached_item(item_no, force_refresh=False, force_refresh_icon=False):
 
 
     else:
-        print('Valid cache detected ({}), no refresh necessary'.format(item_no))
+        print(F'Valid cache detected ({item_no}), no refresh necessary')
         return cached_data['item']
 
 
@@ -92,7 +92,6 @@ def get_item_ids():
 
     with open(ids_path, 'r') as ids:
         data = json.load(ids)
-
 
     return data
 
