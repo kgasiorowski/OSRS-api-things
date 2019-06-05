@@ -24,7 +24,7 @@ def get_cached_item(item_no, force_refresh=False, force_refresh_icon=False):
             try:
                 cached_data = json.load(cached_json)
             except json.decoder.JSONDecodeError:
-                print(F"Error: Cache was malformed (item_no). Refreshing...")
+                print(F"Error: Cache was malformed ({item_no}). Refreshing...")
                 cached_data = None
 
     # Calculate the cached data age
