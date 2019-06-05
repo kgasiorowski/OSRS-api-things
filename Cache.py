@@ -50,7 +50,7 @@ def get_cached_item(item_no, force_refresh=False, force_refresh_icon=False):
                 data['time'] = current_time
 
                 # Overwrite the existing cache
-                with open(cached_item_path, 'w+') as file:
+                with open(cached_item_path, 'w') as file:
                     json.dump(data, file)
 
                 # Refresh the icon if necessary
