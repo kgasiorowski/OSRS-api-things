@@ -3,8 +3,8 @@ from urllib import request, error
 
 cache_path = './cache/'
 image_cache_path = cache_path + 'icon/'
-ids_file = 'ids'
-ids_path = cache_path + ids_file
+ids_file_name = 'ids'
+ids_path = cache_path + ids_file_name
 
 base_url = 'http://services.runescape.com/m=itemdb_oldschool'
 item_info_url = base_url + '/api/catalogue/detail.json?item='
@@ -87,8 +87,15 @@ def get_cached_item_icon(item_no, force_refresh=False):
 
 def get_item_ids():
 
-    with open(ids_path, 'r') as ids:
-        data = json.load(ids)
+    if not os.path.exists(ids_path):
+        with request.urlopen("https://rsbuddy.com/exchange/names.json") as url:
+            data = json.loads(url.read().decode())
+            print(len(data))
+            ids_file = open(ids_path, "w+")
+            ids_file.write(str(data))
+    else:
+        with open(ids_path, 'r') as ids:
+            data = json.load(ids)
 
     return data
 
