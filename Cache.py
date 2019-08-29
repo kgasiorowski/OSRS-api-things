@@ -101,6 +101,9 @@ def search_ids(searchstring):
 
 def convert_to_double(gp_value):
 
+    if isinstance(gp_value, int):
+        return float(gp_value)
+
     temp = {'k':1000, 'm':1000000, 'b':1000000000}
     last_char = str(gp_value)[-1:]
 

@@ -84,13 +84,13 @@ class GUI:
         data = Cache.get_cached_item(itemID)
 
         if data is not None:
-            pprint(data)
-            print(Cache.convert_to_double(data['item']['current']['price']))
 
+            pprint(data)
+            print(Cache.convert_to_double(data['current']['price']))
 
             image = self.root.image = tk.PhotoImage(file=Cache.get_cached_item_icon(itemID))
             self.item_icon.itemconfig(self.image_on_canvas, image=image)
-    
+
             self.name_str.set(data['name'])
             self.price_str.set(data['current']['price'])
             self.description_str.set(data['description'])
