@@ -39,15 +39,10 @@ def get_cached_item(item_no, force_refresh=False, force_refresh_icon=False):
 
         # Request the data from the internets
         try:
+
             with request.urlopen(item_info_url + str(item_no)) as url:
 
-                # Load the json item and add the time to it
-                # try:
                 data = json.loads(url.read().decode())
-                # except json.decoder.JSONDecodeError:
-                #     print('Error: The request seems to have failed. You may be requesting too quickly')
-                #     raise RequestFailedError
-
                 data['time'] = current_time
 
                 # Overwrite the existing cache
@@ -56,7 +51,8 @@ def get_cached_item(item_no, force_refresh=False, force_refresh_icon=False):
 
                 # Refresh the icon if necessary
                 __refresh_icon(data, force_refresh=force_refresh_icon)
-                return data
+                return data['item']
+
         except error.HTTPError:
             print(F"Error: Could not find item {item_no} (error 404)")
             return
@@ -86,7 +82,7 @@ def get_cached_item_icon(item_no, force_refresh=False):
         if get_cached_item(item_no, force_refresh=force_refresh) is None:
             return None
 
-    return image_cache_path + str(item_no)
+    return image_cache_path + str(item_no) + '.gif'
 
 
 def get_item_ids():
