@@ -1,4 +1,4 @@
-import json, time, os
+import json, time, os, string
 from urllib import request, error
 
 cache_path = './cache/'
@@ -9,7 +9,7 @@ ids_path = cache_path + ids_file
 base_url = 'http://services.runescape.com/m=itemdb_oldschool'
 item_info_url = base_url + '/api/catalogue/detail.json?item='
 image_extension = '.gif'
-cache_lifetime = 1800
+cache_lifetime = 3600
 
 
 def get_cached_item(item_no, force_refresh=False, force_refresh_icon=False):
@@ -17,6 +17,7 @@ def get_cached_item(item_no, force_refresh=False, force_refresh_icon=False):
     cached_item_path = cache_path + str(item_no)
     cached_data = None
     cached_data_age = None
+
     current_time = time.time()
 
     if os.path.exists(cached_item_path):
@@ -100,6 +101,17 @@ def search_ids(searchstring):
 
     ids = get_item_ids()
     return [item_id for item_id in ids if str.lower(searchstring) in str.lower(item_id['name'])]
+
+
+def convert_to_double(gp_value):
+
+    temp = {'k':1000, 'm':1000000, 'b':1000000000}
+    last_char = str(gp_value)[-1:]
+
+    if last_char not in temp:
+        return float(gp_value.replace(',', ''))
+    else:
+        return float(gp_value.replace(',', '')[:-1]) * temp[last_char]
 
 
 class RequestFailedError(Exception):

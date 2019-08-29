@@ -45,7 +45,12 @@ class GUI:
         selection = self.item_choices.get(self.item_choices.curselection())
         itemID = int(selection[selection.rfind('(')+1:selection.rfind(')')])
 
-        pprint(Cache.get_cached_item(itemID))
+        data = Cache.get_cached_item(itemID)
+
+        if data is not None:
+            pprint(data)
+            print(Cache.convert_to_double(data['item']['current']['price']))
+
 
     def __search_btn_action(self):
 
