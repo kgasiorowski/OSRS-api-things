@@ -82,7 +82,6 @@ def __refresh_icon(data, force_refresh=False):
 def get_cached_item_icon(item_no, force_refresh=False):
 
     if not os.path.exists(image_cache_path + str(item_no)):
-        os.makedirs(image_cache_path, exist_ok=True)
         return_val = get_cached_item(item_no, force_refresh=True, force_refresh_icon=True)
         if return_val is None:
             return None
