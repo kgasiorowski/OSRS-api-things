@@ -20,6 +20,9 @@ def get_cached_item(item_no, force_refresh=False, force_refresh_icon=False):
 
     current_time = time.time()
 
+    os.makedirs(cache_path, exist_ok=True)
+    os.makedirs(image_cache_path, exist_ok=True)
+
     if os.path.exists(cached_item_path):
         with open(cached_item_path) as cached_json:
             try:
@@ -79,7 +82,9 @@ def __refresh_icon(data, force_refresh=False):
 def get_cached_item_icon(item_no, force_refresh=False):
 
     if not os.path.exists(image_cache_path + str(item_no)):
-        if get_cached_item(item_no, force_refresh=force_refresh) is None:
+        os.makedirs(image_cache_path, exist_ok=True)
+        return_val = get_cached_item(item_no, force_refresh=True, force_refresh_icon=True)
+        if return_val is None:
             return None
 
     return image_cache_path + str(item_no) + '.gif'
