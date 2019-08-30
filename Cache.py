@@ -1,4 +1,4 @@
-import json, time, os, string
+import json, time, os
 from urllib import request, error
 
 cache_path = './cache/'
@@ -88,11 +88,11 @@ def get_cached_item_icon(item_no, force_refresh=False):
 def get_item_ids():
 
     if not os.path.exists(ids_path):
-        with request.urlopen("https://rsbuddy.com/exchange/names.json") as url:
+        os.makedirs(cache_path, exist_ok=True)
+        with request.urlopen("https://rsbuddy.com/exchange/summary.json") as url:
             data = json.loads(url.read().decode())
-            print(len(data))
-            ids_file = open(ids_path, "w+")
-            ids_file.write(str(data))
+            with open(ids_path, "w") as ids_file:
+                json.dump(data, ids_file)
     else:
         with open(ids_path, 'r') as ids:
             data = json.load(ids)
@@ -103,7 +103,7 @@ def get_item_ids():
 def search_ids(searchstring):
 
     ids = get_item_ids()
-    return [item_id for item_id in ids if str.lower(searchstring) in str.lower(item_id['name'])]
+    return [item_info for item_id, item_info in ids.items() if str.lower(searchstring) in str.lower(item_info['name'])]
 
 
 def convert_to_double(gp_value):
@@ -112,7 +112,8 @@ def convert_to_double(gp_value):
         return float(gp_value)
 
     temp = {'k':1000, 'm':1000000, 'b':1000000000}
-    last_char = str(gp_value)[-1:]
+    gp_value = str(gp_value).strip()
+    last_char = gp_value[-1:]
 
     if last_char not in temp:
         return float(gp_value.replace(',', ''))

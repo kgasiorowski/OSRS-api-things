@@ -61,9 +61,8 @@ class GUI:
 
         price_box.pack(side=tk.TOP, fill=tk.X)
 
-        image = self.root.image = tk.PhotoImage(file='./cache/icon/thinking.gif')
+        image = self.root.image = tk.PhotoImage()
         self.image_on_canvas = self.item_icon.create_image(canvas_width/2, canvas_height/2, anchor=tk.CENTER, image=image)
-
 
         search_col.pack(side=tk.RIGHT, fill=tk.Y, padx=10, pady=10)
         display_col.pack(side=tk.LEFT, fill=tk.Y, padx=10)
